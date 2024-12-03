@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anime Threads - Coming Soon</title>
+  <style>
+    /* Base styling */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      scroll-behavior: smooth; /* Enables smooth scrolling */
+    }
+    html {
+     margin: 0; /* Removes default margin */
+     padding: 0; /* Removes default padding */
+   }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #1e1e2f;
+      color: #fff;
+      overflow-x: hidden;
+      margin: 0; /* Removes the black background above the banner */
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Header with Glassmorphism and Oval Edges */
+    header {
+      backdrop-filter: blur(10px); /* Frosted glass */
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 20px; /* Moves header 20px down from the top */
+      z-index: 10;
+      border-radius: 50px; /* Oval edges */
+      width: calc(100% - 40px); /* Slight margin on both sides */
+      margin: 0 auto; /* Centers the header horizontally */
+      background: rgba(255, 255, 255, 0.1); /* Glass effect for better visibility */
+    }
+    header .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    header nav {
+      display: flex;
+      gap: 20px;
+    }
+    header nav a {
+      color: #fff;
+      font-size: 1rem;
+      transition: color 0.3s, transform 0.3s;
+    }
+    header nav a:hover {
+      color: #ffdecc;
+      transform: scale(1.1);
+    }
+
+    /* Banner */
+    .banner {
+      background: url('https://imgs.search.brave.com/0KrukHCUyLfX0Jr9crr4tLHQLWxmdaUJfPl1qKuV9TQ/rs:fit:500:0:0:0/g:ce/aHR0cHM6Ly93YWxs/cGFwZXJjYXZlLmNv/bS93cC93cDg4ODAw/NTAuanBn') no-repeat center/cover;
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      animation: fadeIn 2s ease-in-out;
+      animation-fill-mode: forwards;
+    }
+    .banner h1 {
+      font-size: 3rem;
+      color: #fff;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+    }
+    .banner p {
+      font-size: 1.2rem;
+      margin-top: 10px;
+      color: #ffdecc;
+    }
+    .banner button {
+      padding: 10px 20px;
+      font-size: 1.2rem;
+      color: #fff;
+      background: #ff6f61;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .banner button:hover {
+      background: #ff4a3e;
+      transform: scale(1.1);
+    }
+
+    /* About Section */
+    #about {
+      padding: 50px 20px;
+      text-align: center;
+      opacity: 0; /* Initially hidden */
+      transform: translateY(50px); /* Start from below */
+      animation: fadeUp 1.5s ease-in-out forwards;
+      animation-delay: 0.5s;
+    }
+    #about h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #ff6f61;
+    }
+    #about p {
+      font-size: 1.2rem;
+      max-width: 800px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* Contact Section */
+    #contact {
+      padding: 50px 20px;
+      text-align: center;
+      opacity: 0; /* Initially hidden */
+      transform: translateY(50px); /* Start from below */
+      animation: fadeUp 1.5s ease-in-out forwards;
+      animation-delay: 0.8s;
+    }
+    #contact h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #ff6f61;
+    }
+    #contact form {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    #contact form input, #contact form textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    #contact form button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background: #ff6f61;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+    #contact form button:hover {
+      background: #ff4a3e;
+      transform: scale(1.1);
+    }
+
+    /* Popup Modal */
+    #popup {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      justify-content: center;
+      align-items: center;
+      z-index: 100;
+    }
+    #popup .modal {
+      background: #fff;
+      padding: 20px;
+      border-radius: 5px;
+      text-align: center;
+      color: #000;
+      max-width: 300px;
+    }
+    #popup .modal h3 {
+      margin-bottom: 15px;
+    }
+    #popup .modal input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ddd;
+    }
+    #popup .modal button {
+      padding: 10px 20px;
+      background: #ff6f61;
+      border: none;
+      border-radius: 5px;
+      color: #fff;
+      cursor: pointer;
+    }
+
+    /* Keyframes */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    @keyframes fadeUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Anime Threads</div>
+    <nav>
+      <a href="#about">About</a>
+      <a href="#contact">Contact Us</a>
+    </nav>
+  </header>
+
+  <section class="banner">
+    <div>
+      <h1>Coming Soon!</h1>
+      <p>Get ready for an amazing collection of anime-inspired clothing!</p>
+      <button id="notifyBtn">Notify Me</button>
+    </div>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>Anime Threads is the ultimate destination for anime enthusiasts who want to showcase their passion through fashion. We provide high-quality clothing inspired by your favorite anime series. Stay tuned for our grand launch!</p>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Us</h2>
+    <form>
+      <input type="text" placeholder="Your Name" required />
+      <input type="email" placeholder="Your Email" required />
+      <textarea placeholder="Your Message" rows="5" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <div id="popup">
+    <div class="modal">
+      <h3>Notify Me</h3>
+      <input type="email" placeholder="Enter your email" />
+      <button id="closePopup">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const notifyBtn = document.getElementById("notifyBtn");
+    const popup = document.getElementById("popup");
+    const closePopup = document.getElementById("closePopup");
+
+    notifyBtn.addEventListener("click", () => {
+      popup.style.display = "flex";
+    });
+
+    closePopup.addEventListener("click", () => {
+      popup.style.display = "none";
+    });
+  </script>
+</body>
+</html>
+
